@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 //Rule https://www.notion.so/Game-TYpe-3-Dice-46d84fe6e09c4f188dd8a6218d12c099?pvs=4
 namespace Dice3
@@ -54,7 +55,22 @@ namespace Dice3
         public Player(string name, Dice red, Dice blue, Dice white)
         {
             this.Name = name;
-            this.hp = 10;
+            this.hp = 25;
+            this.dice_Red = red;
+            this.dice_Blue = blue;
+            this.dice_White = white;
+            this.AttackBlue = 0;
+            this.DefenseBlue = 0;
+            this.AttackRed = 0;
+            this.DefenseRed = 0;
+            this.counterluck = 0;
+        }
+
+        public Player(Dice red, Dice blue, Dice white)
+        {
+            Console.Write("Entrez le nom du joueur : ");
+            this.Name = Console.ReadLine();
+            this.hp = 25;
             this.dice_Red = red;
             this.dice_Blue = blue;
             this.dice_White = white;
@@ -136,6 +152,7 @@ namespace Dice3
                 {
                     Thread.Sleep(5000);
                     Console.WriteLine($"End of the game {this.Name} won the match");
+                    Console.ReadKey();
 
                 }
             }
@@ -164,7 +181,7 @@ namespace Dice3
                 {
                     Thread.Sleep(2000);
                     Console.WriteLine($"End of the game {this.Name} won the match");
-                    
+                    Console.ReadKey();
                 }
             }
             else
@@ -221,17 +238,23 @@ namespace Dice3
             //Initialisation
             Console.WindowWidth = 800; 
             Console.WindowHeight = 600;
+            Ruler();
             
             Dice redDice = new Dice("Red");
             Dice blueDice = new Dice("Blue");
             Dice whiteDice = new Dice("White");
 
-            Player player1 = new Player("Silver",redDice,blueDice,whiteDice);
-            Player player2 = new Player("Silvio", redDice, blueDice, whiteDice);
-
+            Console.WriteLine("Player 1");
+            Player player1 = new Player(redDice,blueDice,whiteDice);
+            
+            Console.WriteLine("Player 2");
+            Player player2 = new Player(redDice, blueDice, whiteDice);
+            Console.Clear();
+            int turn = 0;
             while (player1.HP > 0 && player2.HP > 0) //Boucle du jeu
             {
-                Console.WriteLine($"Player 1 : {player1.Name}    │\t\t\t\t\t\t\t\t\t│ Player 2 : {player2.Name}");
+                turn++;
+                Console.WriteLine($"Player 1 : {player1.Name}    │\t\t\t\t T : {turn} \t\t\t\t\t│ Player 2 : {player2.Name}");
                 Console.WriteLine($"   HP    : {player1.HP}        │\t\t\t\t\t\t\t\t\t│     HP   : {player2.HP}");
                 Console.WriteLine($"AttRed {player1.AttackRed} │ AttBlue {player1.AttackBlue} │\t\t\t\t\t\t\t\t\t│ AttRed {player2.AttackRed} │ AttBlue {player2.AttackBlue}");
                 Console.WriteLine($"DefRed {player1.DefenseRed} │ DefBlue {player1.DefenseBlue} │\t\t\t\t\t\t\t\t\t│ DefRed {player2.DefenseRed} │ DefBlue {player2.DefenseBlue}");
@@ -279,7 +302,13 @@ namespace Dice3
             }
         }
 
-       
+       public static void Ruler()
+        {
+            Console.WriteLine("Welcome to the 3 Dice game! Here are the rules:\n\n1. You have 3 Dice as a player, each with a special action.\n\n2. The White dice determines whether you'll attack (if it rolls an odd number) or defend (if it rolls an even number) during your turn.\n\n\n3. The Blue dice defines your magical abilities, which include both defense and attack.\n\n4. The Red dice represents your physical abilities, including both defense and attack.\n\n5. Each turn, you'll roll the dice in this specific order: White, Blue, Red.\n\n6. After rolling the two dice, the attacking or defending action is based on the dice with the greater value.\n\n7. If you roll the same number on the Blue and Red dice, reroll them. The greater number obtained in the reroll determines whether you are attacking or defending, and the other value is placed in reserve.\n\n\n8. The goal of the game is to reduce your opponent's HP (Hit Points) to 0.\n\nHave fun playing the 3 Dice game!\n");
+            Console.WriteLine("Maximize the window for better experience\n\nTo start the game press any key :)");
+            Console.ReadKey();
+            Console.Clear();
+        }
 
     }
 }
